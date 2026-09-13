@@ -47,12 +47,7 @@ RUN /root/.dx/bin/dx bundle \
     --platform web \
     --release
 
-FROM alpine AS runtime
-
-RUN apk add --no-cache \
-    gcompat \
-    libgcc \
-    libstdc++
+FROM gcr.io/distroless/cc-debian13 AS runtime
 
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /app
 
