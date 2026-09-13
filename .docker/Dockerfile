@@ -1,15 +1,5 @@
 FROM rust:1 AS chef
 
-RUN apt-get update && apt-get install -y \
-    musl-tools \
-    pkg-config \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN rustup target add x86_64-unknown-linux-musl
-
-ENV CC_x86_64_unknown_linux_musl=gcc
-
 # RUN cargo install cargo-chef
 
 RUN curl -L --proto '=https' --tlsv1.2 -sSf \
@@ -45,7 +35,6 @@ COPY --from=planner /app/vendor ./vendor
 
 RUN cargo chef cook \
     --release \
-    --target x86_64-unknown-linux-musl \
     --recipe-path recipe.json
 
 COPY . .
@@ -56,10 +45,14 @@ RUN /root/.bun/bin/bun x tailwindcss \
 
 RUN /root/.dx/bin/dx bundle \
     --platform web \
-    --release \
-    --server-target x86_64-unknown-linux-musl
+    --release
 
 FROM alpine AS runtime
+
+RUN apk add --no-cache \
+    gcompat \
+    libgcc \
+    libstdc++
 
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /app
 
