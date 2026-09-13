@@ -57,7 +57,7 @@ RUN /root/.bun/bin/bun x tailwindcss \
 RUN /root/.dx/bin/dx bundle \
     --platform web \
     --release \
-    --target x86_64-unknown-linux-musl
+    --server-target x86_64-unknown-linux-musl
 
 FROM alpine AS runtime
 
