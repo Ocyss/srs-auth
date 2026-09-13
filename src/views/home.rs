@@ -343,7 +343,7 @@ pub fn Home() -> Element {
                                             span { class: "icon-[mdi--open-in-new] size-5" }
                                             "推流说明"
                                         }
-                                        div { class: "card card-sm dropdown-content bg-base-100 rounded-box z-1 w-64 shadow-sm",
+                                        div { class: "card card-sm dropdown-content bg-base-100 rounded-box w-64 shadow-sm",
                                             div { class: "card-body",
                                                 p {
                                                     PublishAddress {
@@ -366,7 +366,7 @@ pub fn Home() -> Element {
                                             span { class: "icon-[mdi--open-in-new] size-5" }
                                             "外部播放器"
                                         }
-                                        ul { class: "dropdown-content menu z-20 border border-base-300 bg-base-100 p-2 shadow-xl",
+                                        ul { class: "dropdown-content menu border border-base-300 bg-base-100 p-2 shadow-xl",
                                             div { class: "join",
                                                 input {
                                                     r#type: "radio",
