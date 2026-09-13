@@ -1,8 +1,10 @@
 FROM rust:1-alpine AS chef
 
 RUN apk add --no-cache \
-    musl-dev \
-    gcc
+    bash \
+    curl \
+    gcc \
+    musl-dev
 
 RUN rustup target add x86_64-unknown-linux-musl
 
@@ -51,6 +53,7 @@ RUN /root/.dx/bin/dx bundle \
     --target x86_64-unknown-linux-musl
 
 FROM alpine AS runtime
+
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /app
 
 ENV PORT=8080
