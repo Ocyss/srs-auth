@@ -172,7 +172,9 @@ pub fn Home() -> Element {
                 if (typeof window.my_player !== 'undefined') {{
                     window.my_player.switchURL('{play_url}');
                 }} else {{
+                    window.Player.I18N.use(window.Player.I18N.lang.zh)
                     window.my_player = new window.Player({{
+                        lang: 'zh',
                         id: 'player_id',
                         height: '100%',
                         width: '100%',
