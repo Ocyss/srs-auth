@@ -1,0 +1,45 @@
+# 仅示例, 按自己需要更改
+
+services:
+  srs:
+    image: ossrs/srs:6
+    restart: unless-stopped
+    ports:
+      - 1935:1935
+      - 10080:10080/udp
+      - 8000:8000/udp
+    volumes:
+      - ./srs.conf:/usr/local/srs/conf/lumen.conf:ro
+    command: [ "./objs/srs", "-c", "conf/lumen.conf" ]
+    networks:
+      - caddy
+    labels:
+      caddy: srs-raw.example.com
+      caddy.reverse_proxy_1: "/* {{upstreams 8080}}"
+      caddy.reverse_proxy_2: "/api/* {{upstreams 1985}}"
+      caddy.reverse_proxy_3: "/rtc/* {{upstreams 1985}}"
+
+  srs-auth:
+    image: ghcr.io/ocyss/srs-auth:latest
+    restart: unless-stopped
+    entrypoint: [ "sleep", "infinity" ]
+    environment:
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=admin
+      - JWT_SECRET=
+      - SRS_API_URL="http://srs:1985"
+      - SRS_API_AUTH_USERNAME=admin
+      - SRS_API_AUTH_PASSWORD=admin
+      - RTMP_BASE_URL="rtmp://srs-raw.example.com"
+      - SRT_BASE_URL="srt://srs-raw.example.com:10080"
+      - HTTP_FLV_BASE_URL="https://srs-raw.example.com"
+      - WEB_RTC_BASE_URL="https://srs-raw.example.com/rtc/v1"
+    networks:
+      - caddy
+    labels:
+      caddy: srs.example.com
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+networks:
+  caddy:
+    external: true
