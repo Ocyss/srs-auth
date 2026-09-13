@@ -34,6 +34,8 @@ services:
       - SRT_BASE_URL="srt://srs-raw.example.com:10080"
       - HTTP_FLV_BASE_URL="https://srs-raw.example.com"
       - WEB_RTC_BASE_URL="https://srs-raw.example.com/rtc/v1"
+    volumes:
+      - ./data:/app/data
     networks:
       - caddy
     labels:
