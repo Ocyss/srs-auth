@@ -1,0 +1,19 @@
+{
+  "name": "srs-auth",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "dependencies": {
+    "@iconify/json": "^2.2.527",
+    "@iconify/tailwind4": "^1.2.3",
+    "@tailwindcss/cli": "^4.3.3",
+    "daisyui": "^5.7.36",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}

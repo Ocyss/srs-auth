@@ -1,0 +1,9 @@
+/.agent
+/.vscode
+/data
+**/target
+**/dist
+LICENSES
+LICENSE
+temp
+README.md

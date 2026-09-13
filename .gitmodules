@@ -1,0 +1,3 @@
+[submodule "vendor/native_db"]
+	path = vendor/native_db
+	url = https://github.com/Ocyss/native_db

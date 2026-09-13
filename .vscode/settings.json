@@ -1,0 +1,9 @@
+{
+  "rust-analyzer.cargo.features": "all",
+  "tailwindCSS.experimental.classRegex": ["class: \"(.*)\""],
+  "tailwindCSS.includeLanguages": {
+    "rust": "html"
+  },
+  "rust-analyzer.imports.group.enable": true,
+  "rust-analyzer.check.command": "clippy"
+}
