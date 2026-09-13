@@ -10,11 +10,18 @@ RUN rustup target add x86_64-unknown-linux-musl
 
 ENV CC_x86_64_unknown_linux_musl=gcc
 
-RUN cargo install cargo-chef
+# RUN cargo install cargo-chef
 
 RUN curl -L --proto '=https' --tlsv1.2 -sSf \
-    https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh \
-    | bash -s -- v0.8.0-alpha.1
+    https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh \
+    | bash
+
+RUN /root/.cargo/bin/cargo-binstall cargo-chef
+RUN /root/.cargo/bin/cargo-binstall dioxus-cli@0.8.0-alpha.1
+
+# RUN curl -L --proto '=https' --tlsv1.2 -sSf \
+#     https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh \
+#     | bash -s -- v0.8.0-alpha.1
 
 RUN curl -fsSL https://bun.com/install | bash
 
