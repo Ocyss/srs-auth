@@ -1,12 +1,19 @@
-FROM rust:1 AS chef
+FROM rust:1-alpine AS chef
+
+RUN apk add --no-cache \
+    musl-dev \
+    gcc
 
 RUN rustup target add x86_64-unknown-linux-musl
+
+ENV CC_x86_64_unknown_linux_musl=gcc
 
 RUN cargo install cargo-chef
 
 RUN curl -L --proto '=https' --tlsv1.2 -sSf \
     https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh \
     | bash -s -- v0.8.0-alpha.1
+
 RUN curl -fsSL https://bun.com/install | bash
 
 WORKDIR /app
