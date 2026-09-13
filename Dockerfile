@@ -11,7 +11,7 @@ FROM chef AS planner
 
 RUN mkdir -p /temp/node
 COPY package.json bun.lock /temp/node/
-RUN cd /temp/node && bun install --frozen-lockfile
+RUN cd /temp/node && /root/.bun/bin/bun install --frozen-lockfile
 
 COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
@@ -27,7 +27,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 
 COPY . .
 
-RUN bun x tailwindcss -i tailwind.css -o ./assets/tailwind.css
+RUN /root/.bun/bin/bun x tailwindcss -i tailwind.css -o ./assets/tailwind.css
 RUN /root/.dx/bin/dx bundle --platform web
 
 FROM chef AS runtime
