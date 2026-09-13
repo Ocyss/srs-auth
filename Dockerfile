@@ -1,8 +1,12 @@
 FROM rust:1 AS chef
 
+RUN rustup target add x86_64-unknown-linux-musl
+
 RUN cargo install cargo-chef
 
-RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh | bash -s -- v0.8.0-alpha.1
+RUN curl -L --proto '=https' --tlsv1.2 -sSf \
+    https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh \
+    | bash -s -- v0.8.0-alpha.1
 RUN curl -fsSL https://bun.com/install | bash
 
 WORKDIR /app
@@ -23,19 +27,28 @@ COPY --from=planner /temp/node/node_modules node_modules
 COPY --from=planner /app/recipe.json recipe.json
 COPY --from=planner /app/vendor ./vendor
 
-RUN cargo chef cook --release --recipe-path recipe.json
+RUN cargo chef cook \
+    --release \
+    --target x86_64-unknown-linux-musl \
+    --recipe-path recipe.json
 
 COPY . .
 
-RUN /root/.bun/bin/bun x tailwindcss -i tailwind.css -o ./assets/tailwind.css
-RUN /root/.dx/bin/dx bundle --platform web --release
+RUN /root/.bun/bin/bun x tailwindcss \
+    -i tailwind.css \
+    -o ./assets/tailwind.css
+
+RUN /root/.dx/bin/dx bundle \
+    --platform web \
+    --release \
+    --target x86_64-unknown-linux-musl
 
 FROM alpine AS runtime
-COPY --from=builder /app/target/dx/srs-auth/release/web/ /usr/local/app
+COPY --from=builder /app/target/dx/srs-auth/release/web/ /app
 
 ENV PORT=8080
 ENV IP=0.0.0.0
 EXPOSE 8080
 
-WORKDIR /usr/local/app
-ENTRYPOINT [ "/usr/local/app/server" ]
+WORKDIR /app
+ENTRYPOINT [ "/app/server" ]
