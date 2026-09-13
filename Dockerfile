@@ -28,7 +28,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 
 RUN /root/.bun/bin/bun x tailwindcss -i tailwind.css -o ./assets/tailwind.css
-RUN /root/.dx/bin/dx bundle --platform web
+RUN /root/.dx/bin/dx bundle --platform web --release
 
 FROM chef AS runtime
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /usr/local/app
