@@ -13,8 +13,8 @@ COPY --from=planner /app/vendor ./vendor
 
 RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
-RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh | bash
-RUN /.cargo/bin/dx bundle --platform web --features production
+RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/DioxusLabs/dioxus/refs/heads/main/.github/install.sh | bash v0.8.0-alpha.1
+RUN /root/.dx/bin/dx bundle --platform web --features production
 
 FROM chef AS runtime
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /usr/local/app
