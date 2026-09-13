@@ -30,7 +30,7 @@ COPY . .
 RUN /root/.bun/bin/bun x tailwindcss -i tailwind.css -o ./assets/tailwind.css
 RUN /root/.dx/bin/dx bundle --platform web --release
 
-FROM chef AS runtime
+FROM alpine AS runtime
 COPY --from=builder /app/target/dx/srs-auth/release/web/ /usr/local/app
 
 ENV PORT=8080
