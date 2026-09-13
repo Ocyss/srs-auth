@@ -54,3 +54,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+          cache-from: type=gha,scope=srs-auth
+          cache-to: type=gha,mode=max,scope=srs-auth

@@ -88,7 +88,10 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 
         // script { src: "https://testingcf.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js" }
-        link { rel: "stylesheet", href: "https://unpkg.byted-static.com/xgplayer/3.0.24/dist/index.min.css" }
+        link {
+            rel: "stylesheet",
+            href: "https://unpkg.byted-static.com/xgplayer/3.0.24/dist/index.min.css",
+        }
         script { src: "https://unpkg.byted-static.com/xgplayer/3.0.24/dist/index.min.js" }
         script { src: "https://unpkg.byted-static.com/xgplayer-flv/3.0.24/dist/index.min.js" }
 
